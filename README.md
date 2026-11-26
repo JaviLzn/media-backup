@@ -11,12 +11,27 @@ Aplicación iOS gratuita y de código abierto para archivar fotos y videos en un
 - Explorar y restaurar archivos desde el SSD, incluso en otro iPhone.
 
 ## Desarrollo
-Windows + Swift + VS Code; compilación iOS mediante GitHub Actions.
-1. Instalar Swift según https://www.swift.org/install/windows/winget/, Git y GitHub CLI.
-2. Clonar el repositorio, ejecutar `powershell -File scripts/bootstrap.ps1` y `swift test`.
-3. Ejecutar `gh workflow run build-ios.yml --ref main`; consultar `gh run list --workflow build-ios.yml`.
-4. Descargar con `gh run download <ID> -n media-backup-unsigned -D dist`.
-5. Firmar e instalar el IPA personalmente; la firma gratuita suele vencer en siete días.
+Stack: Swift nativo. `BackupCore` es un paquete SwiftPM (se prueba en Windows) y la app SwiftUI en `iOS/` se compila en GitHub Actions (macOS) porque no hay Mac. No hay Expo ni web: la app se instala en el iPhone como IPA.
+
+### Windows (núcleo y pruebas)
+1. Instalar Git y GitHub CLI (`gh auth login`).
+2. Instalar Swift según https://www.swift.org/install/windows/winget/. Requiere Visual Studio con el componente *MSVC x64/x86* y el *Windows 11 SDK* (pide permisos de administrador):
+   ```powershell
+   winget install --id Swift.Toolchain -e
+   ```
+3. Desde la raíz: `powershell -File scripts/bootstrap.ps1` y luego `swift test`.
+
+### Compilar el IPA (GitHub Actions)
+1. `gh workflow run build-ios.yml --ref <rama>` (el workflow es manual; repo público, minutos de macOS gratis).
+2. `gh run list --workflow build-ios.yml` para ver el ID y `gh run watch <ID>` para seguirlo (~2 min).
+3. `gh run download <ID> -n media-backup-unsigned -D dist` descarga `MediaBackup.ipa` y su `.sha256`. El artifact dura 7 días.
+
+### Instalar en el iPhone desde Windows (Apple ID gratis)
+1. Instalar iTunes e iCloud de apple.com (no la versión de Microsoft Store) y Sideloadly desde https://sideloadly.io.
+2. Conectar el iPhone por cable, desbloquearlo y aceptar «Confiar en este ordenador».
+3. En Sideloadly: arrastrar `dist/MediaBackup.ipa`, escribir el Apple ID y pulsar *Start*. Usar un Apple ID secundario si es posible.
+4. En el iPhone: *Ajustes → General → VPN y gestión de dispositivos → [Apple ID] → Confiar*. En iOS 16+ activar *Ajustes → Privacidad y seguridad → Modo de desarrollador* y reiniciar.
+5. La firma gratuita vence a los **7 días**: hay que reinstalar con Sideloadly (no se pierden los datos si se reinstala encima). Máximo 3 apps firmadas a la vez con Apple ID gratis.
 
 ## Documentación
 - [Requisitos y aceptación](docs/REQUIREMENTS.md)
