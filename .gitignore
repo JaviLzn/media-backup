@@ -1,0 +1,17 @@
+.build/
+.swiftpm/
+DerivedData/
+build/
+dist/
+Payload/
+*.ipa
+*.xcuserstate
+xcuserdata/
+MediaBackup.xcodeproj/
+.env
+.env.*
+!.env.example
+*.p12
+*.mobileprovision
+*.pem
+.DS_Store

@@ -1,0 +1,40 @@
+name: Compilar iOS
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: macos-26
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Versiones
+        run: |
+          xcodebuild -version
+          swift --version
+      - name: Pruebas core
+        run: swift test
+      - name: Generar proyecto
+        run: |
+          brew install xcodegen
+          xcodegen generate
+      - name: Compilar sin firma
+        run: |
+          xcodebuild -project MediaBackup.xcodeproj -scheme MediaBackup \
+            -configuration Release -sdk iphoneos -destination 'generic/platform=iOS' \
+            -derivedDataPath build CODE_SIGNING_ALLOWED=NO build
+      - name: Empaquetar IPA y checksum
+        run: |
+          mkdir -p Payload dist
+          cp -R build/Build/Products/Release-iphoneos/MediaBackup.app Payload/
+          zip -qr dist/MediaBackup.ipa Payload
+          (cd dist && shasum -a 256 MediaBackup.ipa > MediaBackup.ipa.sha256)
+      - uses: actions/upload-artifact@v4
+        with:
+          name: media-backup-unsigned
+          path: dist/
+          retention-days: 7
+          if-no-files-found: error
