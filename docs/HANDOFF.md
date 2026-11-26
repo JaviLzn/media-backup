@@ -1,12 +1,11 @@
-# Handoff para Claude Code
+# Handoff
 
-Estado inicial: repositorio público, Apache-2.0 existente, rama main. Se propone una PoC de lectura, un core portable pequeño y CI manual; no se ha ejecutado la compilación ni validado un iPhone.
+Estado 0.0.0: PoC de lectura que cuenta elementos visibles de Fotos, enumera archivos directos de una carpeta y calcula SHA-256 de un archivo. No implementa filtros, copia, catálogo ni restauración. Compilación y prueba física aún no verificadas.
 
-Siguiente acción:
-1. Clonar main, ejecutar scripts/bootstrap.ps1 y swift test desde Windows; corregir cualquier fallo y registrar versiones.
-2. Ejecutar workflow build-ios.yml, revisar logs, corregir errores y descargar IPA.
-3. Instalar con firma personal y verificar en iPhone real la autorización Fotos, selección de SSD y SHA-256 contrastado con Get-FileHash -Algorithm SHA256 en Windows.
-4. Auditar Watermelon y demás referencias, fijando commit y licencia. Decidir reutilización por archivo, no por suposición.
-5. Implementar fase 2 solo después de validar la PoC. Crear fixtures sintéticos y pruebas adversas.
+## Siguiente tarea
+1. Ejecutar bootstrap y swift test en Windows; registrar resultado.
+2. Ejecutar build-ios.yml, corregir errores, descargar e instalar IPA.
+3. Validar hito 1 con fixtures en iPhone y SSD físico; contrastar SHA-256 de forma independiente.
+4. Auditar referencias y avanzar según ROADMAP.md, dejando evidencia por requisito y criterio de aceptación.
 
-El borrado no está implementado ni autorizado. No introducir secretos ni datos personales. Mantener una lista de pendientes y resultados verificables.
+Actualizar este archivo tras cada unidad de trabajo con resultados reales, pendientes y bloqueos. No habilitar borrado de originales.

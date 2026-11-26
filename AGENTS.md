@@ -1,10 +1,9 @@
 # Reglas para agentes
 
-- Documentación y commits en español; código e identificadores en inglés. Rama main, commits por unidad completa; no agregar coautores automáticos.
-- Windows es el entorno principal; Swift Package Manager para lógica portable, GitHub Actions macOS para iOS. No exigir Mac local, Docker ni backend.
-- Mantener LICENSE y atribuciones; verificar licencia y commit de cualquier dependencia antes de copiar código. No copiar AGPL/GPL a este proyecto Apache sin decisión explícita.
-- Nunca subir fotografías, videos reales, rutas personales, manifiestos privados, certificados, tokens ni credenciales. Usar fixtures sintéticos.
-- El borrado de originales está fuera del MVP. Ningún nombre, fecha o tamaño prueba integridad.
-- Ejecutar pruebas disponibles, registrar comandos y resultados reales. No afirmar validación de dispositivo sin prueba física.
-- No publicar una release como estable hasta superar los criterios de docs/REQUIREMENTS.md. Actualizar docs/HANDOFF.md después de cada unidad.
-- Mantener CI manual, permisos mínimos, sin secretos de firma; no activar servicios de pago.
+- Leer docs/REQUIREMENTS.md, ARCHIVE_FORMAT.md, ARCHITECTURE.md, ROADMAP.md y HANDOFF.md; mantener trazabilidad MB/AC.
+- Swift nativo, Windows y GitHub Actions macOS. Rama main, commits en español por unidad completa, sin coautores automáticos; identificadores de código en inglés.
+- Alcance: iPhone y SSD. No ampliar funcionalidades ni cambiar licencia sin aprobación.
+- No borrar originales ni sobrescribir archivos existentes. Verificar destino mediante relectura y distinguir importación de restauración verificada.
+- Usar fixtures sintéticos; nunca subir fotos, manifiestos privados, rutas personales, credenciales ni certificados.
+- Verificar licencias antes de copiar código. CI manual, permisos mínimos.
+- Registrar pruebas reales y actualizar HANDOFF.md. No declarar versión estable sin criterios de aceptación y pruebas físicas.

@@ -1,16 +1,17 @@
 # Arquitectura
 
-## ADR-001 — Swift nativo
-SwiftUI + PhotoKit + UniformTypeIdentifiers/UIDocumentPicker y URLs security-scoped. Swift Package Manager para lógica independiente de Apple y XcodeGen para el proyecto iOS generado. Windows compila el core; GitHub Actions compila iOS en macOS. No usar Flutter, React Native ni VM como requisito inicial.
+Swift nativo: SwiftUI, PhotoKit, selector de carpetas iOS y CryptoKit. Core portable mediante Swift Package Manager, proyecto iOS generado con XcodeGen. Desarrollo Windows; compilación macOS en GitHub Actions; pruebas finales en iPhone físico.
 
-## Límites de componentes
-- Sources/BackupCore: modelos, reglas de comparación, manifiestos, estado y pruebas portables.
-- iOS: adaptadores PhotoKit, acceso autorizado a carpetas externas, UI y CryptoKit. Aislar dependencias Apple del core.
-- Persistencia SQLite propuesta tras validar el dispositivo; no introducirla en la prueba de concepto.
-- Hashing por bloques. Mantener acceso security-scoped durante operaciones, liberar después, no seguir enlaces simbólicos fuera del destino.
-- Copia futura: escribir temporal, comprobar tamaño y hash leyendo destino, mover dentro del mismo volumen sin sobrescribir, actualizar manifiesto solo tras éxito. Recuperar temporales e interrupciones sin declarar falsos éxitos.
-- Manifiesto futuro: versión, ID local del elemento (no identificador universal), tipo de recurso, nombre original, tamaño, SHA-256, ruta relativa, fechas y metadatos disponibles, estado, fecha de verificación. Validar rutas y rechazar traversal.
-- SHA-256 comprueba igualdad de bytes en el momento de lectura, no inmunidad a fallos futuros. Recomendar segunda copia independiente y comprobaciones periódicas.
+| Componente | Responsabilidad |
+|---|---|
+| BackupCore | Selección temporal, modelos, comparación, estados, manifiestos y validación de rutas; pruebas portables. |
+| PhotoLibraryAdapter | Autorización, inventario PHAsset/PHAssetResource, streaming original y reconciliación; descarga iCloud autorizada si se requiere. |
+| ExternalStorageAdapter | Carpeta seleccionada, security-scoped URLs, coordinación de archivos, capacidad, lectura/escritura segura. |
+| BackupEngine | Cola persistente por recurso, hash incremental, copia temporal, relectura, confirmación y reanudación. |
+| ArchiveRepository | Contrato ARCHIVE_FORMAT.md, índices, informes y caché reconstruible. |
+| RestoreEngine | Preflight, verificación, PHAssetCreationRequest sin mover el original, metadatos y validación posterior. |
+| UI | Respaldar, Comparar, Explorar, Restaurar, Verificar. |
 
-## Distribución
-IPA sin firma generado como artefacto manual en CI; firma personal fuera de GitHub. No almacenar Apple ID ni claves de firma. App Store requiere evaluar costos y términos de distribución por separado.
+Procesamiento por bloques y concurrencia acotada; ningún video completo en RAM. Preferir exFAT para SSD interoperable, previa validación física. No formatear automáticamente. SQLite opcional como caché, nunca requisito de recuperación.
+
+IPA sin firma en CI manual, firma personal fuera de GitHub. No almacenar credenciales ni datos privados. Véase REQUIREMENTS.md para alcance y aceptación.

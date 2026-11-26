@@ -1,18 +1,15 @@
-# Referencias externas para auditoría
+# Referencias técnicas
 
-Candidatos, no dependencias incorporadas. Verificar acceso, licencia SPDX, commit exacto, atribución y calidad antes de reutilizar. Las funcionalidades citadas son objetivos de evaluación, no certificaciones.
+Candidatos para auditoría; no se ha incorporado su código. Verificar disponibilidad, licencia, commit exacto y avisos antes de reutilizar.
 
-| Repositorio | Evaluar |
+| Referencia | Evaluar |
 |---|---|
-| https://github.com/zizicici/Watermelon | PhotoKit, copia directa SSD, restauración; licencia MIT reportada, verificar |
-| https://github.com/photo-ark/photoark | Manifiestos, reanudación, hashes; AGPL reportada, solo referencia conceptual si se mantiene Apache |
-| https://github.com/veluralabs/nimbus | Verificación antes de liberar espacio; licencia MIT reportada, verificar |
-| https://github.com/canopas/cloud-gallery | Adaptador de Google Drive; licencia Apache reportada, verificar |
-| https://github.com/LibrePhotos/librephotos | Índices y colas; verificar licencia de cada subproyecto |
-| https://github.com/immich-app/immich | Diseño de respaldo, solo referencia conceptual |
-| https://github.com/ente/ente | Sincronización, solo referencia conceptual |
-| https://github.com/rclone/rclone | Verificación externa interoperable |
+| https://github.com/zizicici/Watermelon | PhotoKit, respaldo directo a SSD, restauración. Prioridad alta. |
+| https://github.com/photo-ark/photoark | Diseño de manifiestos, verificación y reanudación; solo referencia conceptual si la licencia no es compatible. |
+| https://developer.apple.com/documentation/photos/phassetresourcemanager | Recursos originales y streaming. |
+| https://developer.apple.com/documentation/photos/phassetcreationrequest | Restauración en Fotos. |
+| https://developer.apple.com/documentation/uikit/providing-access-to-directories | Acceso autorizado a carpetas. |
+| https://www.swift.org/install/windows/ | Entorno local. |
+| https://github.com/yonaskolb/XcodeGen | Generación de proyecto iOS. |
 
-Registrar en ADR o THIRD_PARTY_NOTICES.md el commit, archivos, licencia, razón de reutilización y adaptaciones. Evitar copiar código con licencia no comprobada.
-
-Documentación oficial: https://www.swift.org/install/windows/ ; https://developer.apple.com/documentation/photokit ; https://developer.apple.com/documentation/uikit/uidocumentpickerViewController ; https://github.com/yonaskolb/XcodeGen ; https://github.com/actions/runner-images
+Documentar atribuciones y compatibilidad de cada componente reutilizado. No copiar código GPL/AGPL sin decisión explícita.
